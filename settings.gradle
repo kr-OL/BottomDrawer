@@ -1,0 +1,3 @@
+include ':BottomUpDrawer'
+include ':app'
+rootProject.name = "BottomUpDrawer Demo"
