@@ -8,7 +8,32 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.jetbrains.annotations.NotNull
 
-class BasicBottomSheet private constructor() {
+class BasicBottomSheet private constructor(
+    private val bottomSheetBehavior:BottomSheetBehavior<ConstraintLayout>,
+    private val titleLayout:FrameLayout,
+    private val contentsLayout:FrameLayout,
+    private val titleParams:ViewGroup.MarginLayoutParams,
+    private val contentsParams:ViewGroup.MarginLayoutParams
+) {
+
+    fun hidden(isHidden: Boolean) {
+        if (isHidden) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+        else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
+    fun expend(isExpend : Boolean) {
+        if (isExpend) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+        else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
+
     class Begin(@NotNull private val activity: AppCompatActivity) {
         private val bottomSheetBehavior = BottomSheetBehavior.from(activity.findViewById<ConstraintLayout>(R.id.bottomLayout))
         private val titleLayout: FrameLayout = activity.findViewById<FrameLayout>(R.id.TitleContainer)
@@ -55,6 +80,16 @@ class BasicBottomSheet private constructor() {
             return this
         }
 
-        fun commit() = BasicBottomSheet()
+        fun hidden(isHidden: Boolean) : Begin {
+            if (isHidden) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+            else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+            return this
+        }
+
+        fun commit() = BasicBottomSheet(bottomSheetBehavior, titleLayout, contentsLayout, titleParams, contentsParams)
     }
 }
